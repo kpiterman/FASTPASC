@@ -135,7 +135,7 @@ function(P)
 	return PosetByFunctionNC(DecompositionsOfPoset(P), RefinementOrdering(P));
 end);
 
-InstallMethod(DOfMatroidPoset,
+InstallMethod(DecompositionPosetMatroid,
 "for Poset",
 [IsPoset],
 function(P)
@@ -169,7 +169,7 @@ function(P)
 	return PosetByFunctionNC(PDOfPoset(P), RefinementOrdering(P));
 end);
 
-InstallMethod(PDMatroidPoset,
+InstallMethod(PDPosetMatroid,
 "for Poset",
 [IsPoset],
 function(P)

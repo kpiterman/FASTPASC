@@ -14,7 +14,7 @@ DeclareOperation("DecompositionsOfMatroid", [IsPoset]);
 
 DeclareOperation("DecompositionPoset", [IsPoset]);
 
-DeclareOperation("DOfMatroidPoset", [IsPoset]);
+DeclareOperation("DecompositionPosetMatroid", [IsPoset]);
 
 DeclareOperation("PDOfPoset", [IsPoset]);
 
@@ -22,7 +22,7 @@ DeclareOperation("PDOfMatroid", [IsPoset]);
 
 DeclareOperation("PDPoset", [IsPoset]);
 
-DeclareOperation("PDMatroidPoset", [IsPoset]);
+DeclareOperation("PDPosetMatroid", [IsPoset]);
 
 DeclareOperation("PartialFramesOfPoset", [IsPoset, IsInt]);
 

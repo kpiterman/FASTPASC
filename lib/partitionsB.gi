@@ -9,7 +9,7 @@ function(n)
 		P!.heights[i]:=n-Size(Set(P)[i]);
 	od;
 	return P;
-end;)
+end);
 
 
 InstallMethod(TypeBPartitions,
@@ -77,12 +77,12 @@ InstallMethod(DecompPosetTypeBPartitionLattice,
 "for Integer",
 [IsInt],
 function(n)
-    return DOfMatroidPoset(TypeBPartitionLattice(n));
+    return DecompositionPosetMatroid(TypeBPartitionLattice(n));
 end);
 
 InstallMethod(PDPosetTypeBPartitionLattice,
 "for Integer",
 [IsInt],
 function(n)
-    return PDOfMatroid(TypeBPartitionLattice(n));
+    return PDPosetMatroid(TypeBPartitionLattice(n));
 end);

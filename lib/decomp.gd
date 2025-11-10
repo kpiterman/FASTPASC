@@ -30,13 +30,23 @@ DeclareOperation("OrderedDecompositionPoset", [IsPoset]);
 
 DeclareOperation("OrderedDecompositionPosetMatroid", [IsPoset]);
 
+DeclareOperation("ComputePartialDecompositions", [IsList]);
+
 DeclareOperation("PDOfPoset", [IsPoset]);
 
 DeclareOperation("PDOfMatroid", [IsPoset]);
 
+DeclareOperation("OPDOfPoset", [IsPoset]);
+
+DeclareOperation("OPDOfMatroid", [IsPoset]);
+
 DeclareOperation("PDPoset", [IsPoset]);
 
 DeclareOperation("PDPosetMatroid", [IsPoset]);
+
+DeclareOperation("OPDPoset", [IsPoset]);
+
+DeclareOperation("OPDPosetMatroid", [IsPoset]);
 
 DeclareOperation("PartialFramesOfPoset", [IsPoset, IsInt]);
 
@@ -55,4 +65,3 @@ DeclareOperation("EulerFrames", [IsPoset]);
 DeclareOperation("HeightD", [IsPoset, IsObject]);
 
 DeclareOperation("HeightPD", [IsPoset, IsObject]);
-

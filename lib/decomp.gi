@@ -175,7 +175,7 @@ InstallMethod(ToTuples,
 "for List",
 [IsList],
 function(L)
-	local bySize, max, allTuples, k;
+	local bySize, max, allTuples, k, Sk, sigma;
 	max:=Maximum(List(L, Size));
 	allTuples:=[];
 	bySize:=List([1..max], k->Filtered(L, x->Size(x) = k));
@@ -218,13 +218,25 @@ function(P)
 end);
 
 
+InstallMethod(ComputePartialDecompositions,
+"for List",
+[IsList],
+function(decomp)
+    local L, pd, add, x;
+    L := Concatenation(List(decomp, d->Concatenation(List([1..Size(d)], i->Combinations(d,i)))));
+    pd := [];
+    for x in L do
+        add := not ForAny(pd, y->Set(y) = Set(x));
+        if add then Add(pd, x); fi;
+    od;
+    return pd;
+end);
+
 InstallMethod(PDOfPoset,
 "for Poset",
 [IsPoset],
 function(P)
-	local decomp;
-    decomp := DecompositionsOfPoset(P);
-    return Set(Concatenation(List(decomp, d->Concatenation(List([1..Size(d)], i->Combinations(d,i))))));
+    return ComputePartialDecompositions(DecompositionsOfPoset(P));
 end);
 
 
@@ -232,11 +244,23 @@ InstallMethod(PDOfMatroid,
 "for Poset",
 [IsPoset],
 function(P)
-	local decomp;
-    decomp := DecompositionsOfMatroid(P);
-    return Set(Concatenation(List(decomp, d->Concatenation(List([1..Size(d)], i->Combinations(d,i))))));
+	return ComputePartialDecompositions(DecompositionsOfMatroid(P));
 end);
 
+InstallMethod(OPDOfPoset,
+"for Poset",
+[IsPoset],
+function(P)
+    return ToTuples(PDOfPoset(P));
+end);
+
+
+InstallMethod(OPDOfMatroid,
+"for Poset",
+[IsPoset],
+function(P)
+	return ToTuples(PDOfMatroid(P));
+end);
 
 InstallMethod(PDPoset,
 "for Poset",
@@ -250,6 +274,20 @@ InstallMethod(PDPosetMatroid,
 [IsPoset],
 function(P)
 	return PosetByFunctionNC(PDOfMatroid(P), RefinementOrdering(P));
+end);
+
+InstallMethod(OPDPoset,
+"for Poset",
+[IsPoset],
+function(P)
+	return PosetByFunctionNC(OPDOfPoset(P), OrderedRefinementOrdering(P));
+end);
+
+InstallMethod(OPDPosetMatroid,
+"for Poset",
+[IsPoset],
+function(P)
+	return PosetByFunctionNC(OPDOfMatroid(P), OrderedRefinementOrdering(P));
 end);
 
 

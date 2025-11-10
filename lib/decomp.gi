@@ -6,6 +6,23 @@ function(P, y, x)
 	return ForAll(x, s->ForAny(y, t->Ordering(P)(t,s)));
 end);
 
+InstallMethod(IsFinerOrderedSetOfSubsetsPoset,
+"for Poset, Object, Object",
+[IsPoset, IsObject, IsObject],
+function(P, y, x)
+	local i,j,L;
+	L:=[];
+	for i in [1..Size(x)] do
+		j:=First([1..Size(y)], k->Ordering(P)(y[k],x[i]));
+		if j = fail then
+			return false;
+		else
+			Add(L, j);
+		fi;
+	od;
+	return ForAll([1..Size(L)-1], k->L[k] <= L[k+1]);
+end);
+
 InstallMethod(IsFinerSets,
 "for List, List",
 [IsList, IsList],
@@ -20,6 +37,18 @@ function(P)
 	local ord;
     ord := function(sigma, tau)
         return IsFinerSetOfSubsetsPoset(P, sigma, tau);
+    end;
+    return ord;
+end);
+
+
+InstallMethod(OrderedRefinementOrdering,
+"for Poset",
+[IsPoset],
+function(P)
+	local ord;
+    ord := function(sigma, tau)
+        return IsFinerOrderedSetOfSubsetsPoset(P, sigma, tau);
     end;
     return ord;
 end);
@@ -142,6 +171,53 @@ function(P)
 	return PosetByFunctionNC(DecompositionsOfMatroid(P), RefinementOrdering(P));
 end);
 
+InstallMethod(ToTuples,
+"for List",
+[IsList],
+function(L)
+	local bySize, max, allTuples, k;
+	max:=Maximum(List(L, Size));
+	allTuples:=[];
+	bySize:=List([1..max], k->Filtered(L, x->Size(x) = k));
+	for k in [1..max] do
+		Sk:=SymmetricGroup(k);
+		for sigma in Sk do
+			allTuples:=Concatenation(allTuples, List(bySize[k], x->Permuted(x, sigma)));
+		od;
+	od;
+	return allTuples;
+end);
+
+
+InstallMethod(OrderedDecompositionsOfPoset,
+"for Poset",
+[IsPoset],
+function(P)
+	return ToTuples(DecompositionsOfPoset(P));
+end);
+
+InstallMethod(OrderedDecompositionsOfMatroid,
+"for Poset",
+[IsPoset],
+function(P)
+	return ToTuples(DecompositionsOfMatroid(P));
+end);
+
+InstallMethod(OrderedDecompositionPoset,
+"for Poset",
+[IsPoset],
+function(P)
+	return PosetByFunctionNC(OrderedDecompositionsOfPoset(P), OrderedRefinementOrdering(P));
+end);
+
+InstallMethod(OrderedDecompositionPosetMatroid,
+"for Poset",
+[IsPoset],
+function(P)
+	return PosetByFunctionNC(OrderedDecompositionsOfMatroid(P), OrderedRefinementOrdering(P));
+end);
+
+
 InstallMethod(PDOfPoset,
 "for Poset",
 [IsPoset],
@@ -201,8 +277,38 @@ end);
 InstallMethod(EulerDecompositions,
 "for Poset",
 [IsPoset],
-function(D)
+function(P)
+	local D;
+	D:=DecompositionsOfPoset(P);
 	return -1-Sum(Set(D), d->(-1)^(Size(d)-1)*Factorial( Size(d)-1));
+end);
+
+InstallMethod(EulerDecompositionsMatroid,
+"for Poset",
+[IsPoset],
+function(P)
+	local D;
+	D:=DecompositionsOfMatroid(P);
+	return -1-Sum(Set(D), d->(-1)^(Size(d)-1)*Factorial( Size(d)-1));
+end);
+
+
+InstallMethod(EulerOrderedDecompositions,
+"for Poset",
+[IsPoset],
+function(P)
+	local D;
+	D:=DecompositionsOfPoset(P);
+	return -1+Sum(Set(D), d->(-1)^Size(d)*Factorial( Size(d)));
+end);
+
+InstallMethod(EulerOrderedDecompositionsMatroid,
+"for Poset",
+[IsPoset],
+function(P)
+	local D;
+	D:=DecompositionsOfMatroid(P);
+	return -1+Sum(Set(D), d->(-1)^Size(d)*Factorial( Size(d)));
 end);
 
 InstallMethod(EulerFrames,

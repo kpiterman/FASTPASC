@@ -5,7 +5,7 @@ DeclareOperation("ToPerm", [IsGroup and IsFinite]);
 
 DeclareOperation("PRank", [IsGroup and IsFinite, IsInt]);
 
-DeclareOperation("NSylowSubgroups", [IsGroup and IsFinite, IsInt]);
+DeclareOperation("NrSylowSubgroups", [IsGroup and IsFinite, IsInt]);
 
 DeclareOperation("ReduceConjugacyClasses", [IsGroup, IsList]);
 

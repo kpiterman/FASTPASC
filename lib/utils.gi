@@ -29,7 +29,7 @@ function(G,p)
 end);
 
 
-InstallMethod(NSylowSubgroups,
+InstallMethod(NrSylowSubgroups,
 "for Group, Integer",
 [IsGroup and IsFinite, IsInt],
 function(G,p)
